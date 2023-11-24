@@ -8,7 +8,7 @@ WORKDIR /app
 COPY . /app
 
 # Make port 4000 available to the world outside this container
-EXPOSE 4000
+EXPOSE 40000
 
 # Define environment variable
 ENV SPRING_PROFILES_ACTIVE=dev
