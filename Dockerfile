@@ -6,7 +6,7 @@ WORKDIR /app
 
 # Copy the current directory contents into the container at /app
 COPY . /app
-
+#yy
 # Make port 4000 available to the world outside this container
 EXPOSE 40000
 
