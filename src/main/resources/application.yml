@@ -1,2 +1,2 @@
 server:
-  port: 40000
+  port: 9300
