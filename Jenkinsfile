@@ -15,8 +15,11 @@ node {
     }
 
     stage('Build image') {
-        app = docker.build('sool/jenkins-test')
+        script {
+            app = docker.build('sool/jenkins-test', "-f Dockerfile .")
+        }
     }
+
     stage('Run container') {
         sh "docker run --name sool-jenkins -d -p 40000:40000 sool/jenkins-test:latest"
     }
