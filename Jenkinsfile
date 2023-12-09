@@ -1,18 +1,10 @@
 def app
 
 node {
-    environment {
-      GRADLE_HOME = tool 'jenkins-gradle'
-    }
-
-
-    stage('Checkout') {
-        git branch: 'dev', credentialsId: 'jenkins-test', url: 'git@github.com:zoosickcompany/jenkins-test.git'
-    }
 
     stage('Ready') {
         echo 'Ready to build'
-        gradleHome = tool 'gradle'
+        gradleHome = tool 'jenkins-gradle'
     }
 
     stage('Build') {
