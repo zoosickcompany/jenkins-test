@@ -18,7 +18,7 @@ node {
         script {
             // Docker Hub에 로그인
             withCredentials([usernamePassword(credentialsId: 'docker-hub', usernameVariable: 'DOCKER_HUB_USERNAME', passwordVariable: 'DOCKER_HUB_PASSWORD')]) {
-                sh "docker build -t sool/jenkins-test -f Dockerfile ."
+                sh "/home/oslob/snap/docker build -t sool/jenkins-test -f Dockerfile ."
             }
         }
     }
