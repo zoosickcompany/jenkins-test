@@ -12,7 +12,7 @@ node {
     }
 
     stage('Build image') {
-        sh /snap/bin/docker build -t sool/jenkins-test ."
+        app = docker.build('sool/jenkins-test')
     }
     stage('Run container') {
         sh "docker run --name sool-jenkins -d -p 40000:40000 sool/jenkins-test:latest"
