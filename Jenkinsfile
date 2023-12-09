@@ -2,7 +2,7 @@ def app
 
 node {
     stage('Checkout') {
-          checkout scm
+        checkout scm
     }
 
     stage('Ready') {
@@ -16,8 +16,11 @@ node {
 
     stage('Build image') {
         script {
-            // Docker 실행 파일의 전체 경로를 사용합니다.
-            sh "/usr/bin/docker build -t sool/jenkins-test -f Dockerfile ."
+            // Docker Hub에 로그인
+            withCredentials([usernamePassword(credentialsId: 'docker-hub', usernameVariable: 'DOCKER_HUB_USERNAME', passwordVariable: 'DOCKER_HUB_PASSWORD')]) {
+                // Docker 이미지를 빌드 및 태깅
+                sh "/usr/bin/docker build -t sool/jenkins-test -f Dockerfile ."
+            }
         }
     }
 
