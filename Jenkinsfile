@@ -2,7 +2,7 @@ def app
 
 node {
     stage('Checkout') {
-        git branch: 'dev', credentialsId: 'jenkins-test', url: 'https://github.com/zoosickcompany/jenkins-test.git'
+        git branch: 'dev', credentialsId: 'jenkins-test', url: 'git@github.com:zoosickcompany/jenkins-test.git'
     }
 
     stage('Ready') {
