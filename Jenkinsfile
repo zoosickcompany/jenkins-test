@@ -16,7 +16,8 @@ node {
 
     stage('Build image') {
         script {
-            app = docker.build('sool/jenkins-test', "-f Dockerfile .")
+            // Docker 실행 파일의 전체 경로를 사용합니다.
+            sh "/snap/bin/docker build -t sool/jenkins-test -f Dockerfile ."
         }
     }
 
