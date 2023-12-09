@@ -1,6 +1,9 @@
 def app
 
 node {
+    stage('Checkout') {
+          checkout scm
+    }
 
     stage('Ready') {
         echo 'Ready to build'
