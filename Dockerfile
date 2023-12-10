@@ -1,5 +1,5 @@
 # Use an official OpenJDK runtime as a parent image
-FROM springci/spring-boot-cnb:jdk17
+FROM openjdk:17-jdk-slim
 
 # Set the working directory to /app
 WORKDIR /app
