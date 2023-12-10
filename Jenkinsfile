@@ -1,10 +1,6 @@
 pipeline {
     agent any
 
-    options {
-        timeout(time: 1, unit: 'HOURS') // set timeout 1 hour
-    }
-
     environment {
         REPOSITORY_CREDENTIAL_ID = 'jenkins-test' // github repository credential name
         REPOSITORY_URL = 'git@github.com:zoosickcompany/jenkins-test.git'
@@ -27,11 +23,6 @@ pipeline {
                     deleteDir()
                 }
             }
-            post {
-                success {
-                    echo 'success init in pipeline'
-                }
-            }
         }
 
         stage('clone project') {
@@ -43,28 +34,12 @@ pipeline {
                     sh 'ls -al'
                 }
             }
-            post {
-                success {
-                    echo 'success clone project'
-                }
-                failure {
-                    error 'fail clone project' // exit pipeline
-                }
-            }
         }
 
         stage('dockerizing by Gradle') {
     steps {
         script {
             sh './gradlew bootBuildImage -PskipTests -PimageName=$IMAGE_NAME'
-        }
-    }
-    post {
-        success {
-            echo 'success dockerizing by Gradle'
-        }
-        failure {
-            error 'fail dockerizing by Gradle' // exit pipeline
         }
     }
 }
@@ -83,17 +58,5 @@ stage('deploy') {
             // 이미지를 사용하여 컨테이너 실행
             sh "docker run --name $CONTAINER_NAME -d -p 40000:40000 demo:0.0.1-SNAPSHOT"
         }
-    }
-    post {
-        success {
-            echo 'success deploying sool spring project'
-        }
-        failure {
-            error 'fail deploying sool spring project' // exit pipeline
-        }
-    }
-}
-
-
     }
 }
