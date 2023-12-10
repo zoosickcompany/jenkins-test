@@ -22,7 +22,7 @@ pipeline {
                 script {
                     // Use double quotes to allow variable interpolation
                     sh """
-                    docker rm -f $CONTAINER_NAME
+                    docker rm -f $CONTAINER_NAME || true
                     """
                     deleteDir()
                 }
