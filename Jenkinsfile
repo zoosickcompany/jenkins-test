@@ -75,7 +75,9 @@ stage('deploy') {
             // Docker Hub에 로그인
             withCredentials([usernamePassword(credentialsId: DOCKER_HUB_CREDENTIAL_ID, usernameVariable: 'DOCKER_HUB_USERNAME', passwordVariable: 'DOCKER_HUB_PASSWORD')]) {
                 // Docker 이미지를 Docker Hub에 푸시 (태그 추가)
-                sh "docker build -t ${DOCKER_HUB_USERNAME}/$IMAGE_NAME:latest -f Dockerfile ." // 사용자 이름을 이미지 이름에 포함
+                sh """ which docker
+                       docker build -t ${DOCKER_HUB_USERNAME}/$IMAGE_NAME:latest -f Dockerfile .
+                   """ // 사용자 이름을 이미지 이름에 포함
                 sh "docker push ${DOCKER_HUB_USERNAME}/$IMAGE_NAME:latest"
             }
 
