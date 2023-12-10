@@ -60,3 +60,4 @@ stage('deploy') {
         }
     }
 }
+}
