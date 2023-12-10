@@ -2,7 +2,7 @@ def app
 
 node {
     stage('Checkout') {
-        checkout scm
+        checkout([$class: 'GitSCM', branches: [[name: 'dev']], doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg: [], userRemoteConfigs: [[credentialsId: 'jenkins-test', url: 'https://github.com/zoosickcompany/jenkins-test']]])
     }
 
     stage('Ready') {
@@ -18,7 +18,7 @@ node {
         script {
             // Docker Hub에 로그인
             withCredentials([usernamePassword(credentialsId: 'docker-hub', usernameVariable: 'DOCKER_HUB_USERNAME', passwordVariable: 'DOCKER_HUB_PASSWORD')]) {
-                sh "/home/oslob/snap/docker build -t sool/jenkins-test -f Dockerfile ."
+                sh "docker build -t sool/jenkins-test -f Dockerfile ."
             }
         }
     }
