@@ -8,13 +8,6 @@ environment {
 pipeline {
     agent any
 
-    stages {
-        stage('Checkout') {
-            steps {
-                checkout scm 
-            }
-        }
-
         stage('Ready') {
             steps {
                 script {
@@ -37,7 +30,7 @@ pipeline {
                 script {
                     app = docker.build('zoosickcompany/jenkins-test')
                     // Push the Docker image to a registry (replace 'your-docker-registry' with the actual registry)
-                    docker.withRegistry('https://your-docker-registry', 'your-docker-credentials-id') {
+                    docker.withRegistry(${DOCKER_HUB_CREDENTIAL_ID}) {
                         app.push()
                     }
                 }
