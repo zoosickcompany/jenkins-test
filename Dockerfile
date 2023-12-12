@@ -18,11 +18,15 @@ node {
         }
     }
 
-    // Clone project stage
     stage('clone project') {
-        checkout([$class: 'GitSCM', branches: [[name: "*/$TARGET_BRANCH"]], doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg: [], userRemoteConfigs: [[credentialsId: REPOSITORY_CREDENTIAL_ID, url: REPOSITORY_URL]]])
-        sh 'ls -al'
+        steps {
+            script {
+                checkout([$class: 'GitSCM', branches: [[name: "*/$TARGET_BRANCH"]], doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg: [], userRemoteConfigs: [[credentialsId: REPOSITORY_CREDENTIAL_ID, url: REPOSITORY_URL]]])
+                sh 'ls -al'
+            }
+        }
     }
+
 
     // Dockerizing by Gradle stage
     stage('dockerizing by Gradle') {
