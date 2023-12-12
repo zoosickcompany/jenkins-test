@@ -8,6 +8,7 @@ environment {
 pipeline {
     agent any
 
+        stages {
         stage('Ready') {
             steps {
                 script {
