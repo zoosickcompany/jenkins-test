@@ -1,17 +1,19 @@
 def app
 
-node {
-    stage('Checkout') {
-        checkout scm 
-    }
+environment{
+    REPOSITORY_CREDENTIAL_ID = 'jenkins-test' // github repository credential name
+    REPOSITORY_URL = 'git@github.com:zoosickcompany/jenkins-test.git'
+    DOCKER_HUB_CREDENTIAL_ID = 'docker-hub' // Docker Hub credentials ID
+}
 
+node {
     stage('Ready') {      
-        echo 'Ready to build'
-        gradleHome = tool 'gradle' 
+        sh "./gradlew bootBuildImage -PskipTests -PimageName=test"
     }
 
     stage('Build') {
         sh "${gradleHome}/bin/gradle clean build"
+        sh "docker build -t test:latest -f Dockerfile ."
     }
  
     stage('Build image') {
