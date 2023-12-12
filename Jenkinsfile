@@ -1,22 +1,56 @@
 def app
 
-environment{
+environment {
     REPOSITORY_CREDENTIAL_ID = 'jenkins-test' // github repository credential name
-    REPOSITORY_URL = 'git@github.com:zoosickcompany/jenkins-test.git'
     DOCKER_HUB_CREDENTIAL_ID = 'docker-hub' // Docker Hub credentials ID
 }
 
-node {
-    stage('Ready') {      
-        sh "./gradlew bootBuildImage -PskipTests -PimageName=test"
+pipeline {
+    agent any
+
+    stages {
+        stage('Checkout') {
+            steps {
+                checkout scm 
+            }
+        }
+
+        stage('Ready') {
+            steps {
+                script {
+                    echo 'Ready to build'
+                    gradleHome = tool 'gradle' 
+                }
+            }
+        }
+
+        stage('Build') {
+            steps {
+                script {
+                    sh "docker build -t test:latest -f Dockerfile ."
+                }
+            }
+        }
+
+        stage('Build Docker Image') {
+            steps {
+                script {
+                    app = docker.build('zoosickcompany/jenkins-test')
+                    // Push the Docker image to a registry (replace 'your-docker-registry' with the actual registry)
+                    docker.withRegistry('https://your-docker-registry', 'your-docker-credentials-id') {
+                        app.push()
+                    }
+                }
+            }
+        }
     }
 
-    stage('Build') {
-        sh "${gradleHome}/bin/gradle clean build"
-        sh "docker build -t test:latest -f Dockerfile ."
-    }
- 
-    stage('Build image') {
-        app = docker.build('zoosickcompany/jenkins-test')
+    post {
+        always {
+            // Clean up by removing the Docker image created during the build
+            script {
+                app.remove()
+            }
+        }
     }
 }
