@@ -2,7 +2,7 @@ def app
 
 node {
     stage('Checkout') {
-        checkout scm 
+        checkout dev
     }
     
     stage('Ready') {      
