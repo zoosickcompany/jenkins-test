@@ -1,9 +1,5 @@
 def app
 
-tools {
-        gradle 'gradle'
-    }
-
 node {
     stage('Checkout') {
         checkout scm 
