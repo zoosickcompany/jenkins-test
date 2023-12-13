@@ -8,10 +8,7 @@ node {
     def DOCKER_HUB_CREDENTIAL_ID = 'docker-hub'
 
     stage('init') {
-        echo 'init stage'
-        sh """
-        docker rm -f $CONTAINER_NAME || true
-        """
+        sh """ docker rm -f $CONTAINER_NAME || true """
         deleteDir()
     }
 
@@ -28,8 +25,8 @@ node {
             sh "docker login -u ${DOCKER_HUB_USERNAME} -p ${DOCKER_HUB_PASSWORD}"
             sh "docker build -t ${DOCKER_HUB_USERNAME}/$IMAGE_NAME:latest -f Dockerfile ."
             sh "docker push ${DOCKER_HUB_USERNAME}/$IMAGE_NAME:latest"
-        }
 
-        sh "docker run --name $CONTAINER_NAME -d -p 40000:40000 ${DOCKER_HUB_USERNAME}/$IMAGE_NAME:latest"
+            sh "docker run --name $CONTAINER_NAME -d -p 40000:40000 ${DOCKER_HUB_USERNAME}/$IMAGE_NAME:latest"
+        }
     }
 }
