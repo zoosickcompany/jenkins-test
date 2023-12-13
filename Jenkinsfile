@@ -16,6 +16,10 @@ node {
         git url: REPOSITORY_URL, branch: TARGET_BRANCH, credentialsId: REPOSITORY_CREDENTIAL_ID
     }
 
+     stage('dockerizing by Gradle') {
+        sh "./gradlew bootBuildImage -PskipTests -PimageName=$IMAGE_NAME"
+    }
+
     stage('deploy') {
         withCredentials([usernamePassword(credentialsId: DOCKER_HUB_CREDENTIAL_ID, usernameVariable: 'DOCKER_HUB_USERNAME', passwordVariable: 'DOCKER_HUB_PASSWORD')]) {
             sh "docker login -u ${DOCKER_HUB_USERNAME} -p ${DOCKER_HUB_PASSWORD}"
